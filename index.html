@@ -1076,22 +1076,34 @@
         const timeSlots = ["8:30-9:50", "10:00-11:20", "12:00-13:20", "13:30-14:50"];
         const timeSlotsDO = ["8:30-9:00", "10:00-10:30", "12:00-12:30", "13:30-14:00"];
 
-        // Students data
+        // Students data - ИСПРАВЛЕННЫЕ ПАРОЛИ
         const students = [
-            { id: 1, fullName: "Хренков Илья", password: "A3F", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 2, fullName: "Воинов Павел", password: "B7G", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            // ... остальные студенты ...
-            { id: 25, fullName: "Щербина Егор", password: "Y5F", profession: "ИСП 1-1 (Информационные системы и программирование)" }
+            { id: 1, fullName: "Хренков Илья", password: "123", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 2, fullName: "Воинов Павел", password: "456", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 3, fullName: "Плясова Дарья", password: "789", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 4, fullName: "Пшеницын Борис", password: "abc", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 5, fullName: "Чоп Анатолий", password: "def", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 6, fullName: "Разиньков Алексей", password: "ghi", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 7, fullName: "Картамышев Иван", password: "jkl", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 8, fullName: "Бузыкин Владислав", password: "mno", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 9, fullName: "Гвоздилин Дмитрий", password: "pqr", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 10, fullName: "Гримов Александр", password: "stu", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 11, fullName: "Гусенцев Алексей", password: "vwx", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 12, fullName: "Евдокимов Артем", password: "yz1", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 13, fullName: "Жмакина Дарья", password: "234", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 14, fullName: "Лукьянчиков Ярослав", password: "567", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 15, fullName: "Макуха Милана", password: "890", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 16, fullName: "Мащенко Анастасия", password: "ABC", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 17, fullName: "Наумов Константин", password: "DEF", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 18, fullName: "Ненахов Дмитрий", password: "GHI", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 19, fullName: "Писарев Андрей", password: "JKL", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 20, fullName: "Савенков Артем", password: "MNO", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 21, fullName: "Сотникова Екатерина", password: "PQR", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 22, fullName: "Труфанова Анастасия", password: "STU", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 23, fullName: "Филоненко Никита", password: "VWX", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 24, fullName: "Чернов Максим", password: "YZ2", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 25, fullName: "Щербина Егор", password: "345", profession: "ИСП 1-1 (Информационные системы и программирование)" }
         ];
-
-        // Add admin user
-        students.push({
-            id: 26,
-            fullName: "Админ",
-            password: "Dom.5526",
-            profession: "Администратор",
-            isAdmin: true
-        });
 
         // Schedule data
         const scheduleData = {
@@ -1615,11 +1627,6 @@
 
         // Load grades
         function loadGrades() {
-            if (currentUser.isAdmin) {
-                gradesTable.innerHTML = '<tr><td colspan="2" style="text-align: center;">Оценки доступны только для учеников</td></tr>';
-                return;
-            }
-            
             gradesTable.innerHTML = '';
             
             const headerRow = document.createElement('tr');
