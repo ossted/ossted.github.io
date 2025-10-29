@@ -481,6 +481,7 @@
             border: 4px solid var(--primary-color);
             margin: 0 auto 15px;
             display: block;
+            background-color: var(--light-color);
         }
 
         .avatar-upload {
@@ -892,13 +893,13 @@
                             <h3 class="stat-title">Общая статистика</h3>
                             <div class="ranking">
                                 <p>Ваше место в рейтинге:</p>
-                                <div class="rank-number" id="rankNumber">1</div>
+                                <div class="rank-number" id="rankNumber">-</div>
                                 <p>из 25 учеников</p>
-                                <p style="margin-top: 15px;">Пятерок: <strong id="fivesCount">0</strong></p>
-                                <p>Четверок: <strong id="foursCount">0</strong></p>
-                                <p>Троек: <strong id="threesCount">0</strong></p>
-                                <p>Двоек: <strong id="twosCount">0</strong></p>
-                                <p>Пропусков: <strong id="missedClasses">0</strong></p>
+                                <p style="margin-top: 15px;">Пятерок: <strong id="fivesCount">-</strong></p>
+                                <p>Четверок: <strong id="foursCount">-</strong></p>
+                                <p>Троек: <strong id="threesCount">-</strong></p>
+                                <p>Двоек: <strong id="twosCount">-</strong></p>
+                                <p>Пропусков: <strong id="missedClasses">-</strong></p>
                             </div>
                         </div>
                     </div>
@@ -960,7 +961,7 @@
             isAdmin: true
         });
 
-        // Schedule data
+        // Schedule data - ИСПРАВЛЕННОЕ РАСПИСАНИЕ
         const scheduleData = {
             "Понедельник (16.09)": [
                 { subject: "ОБЖ", classroom: "10", homework: "Подготовиться к отработке первой помощи", time: "8:30-9:50" },
@@ -975,8 +976,8 @@
                 { subject: "Английский язык (Группа 1)", classroom: "44а", homework: "ДЗ в группе", time: "8:30-9:50" },
                 { subject: "Английский язык (Группа 2)", classroom: "45", homework: "ДЗ в группе", time: "8:30-9:50" },
                 { subject: "Физическая культура", classroom: "С3.2", homework: "ДЗ в группе", time: "10:00-11:20" },
-                { subject: "Математика", classroom: "ДО", homework: "ДЗ в группе", time: "12:00-12:30" },
-                { subject: "История", classroom: "ДО", homework: "ДЗ в группе", time: "13:30-14:00" }
+                { subject: "Математика", classroom: "ДО", homework: "ДЗ в группе", time: "12:00-12:30" }
+                // Убрана лишняя пара истории в среду
             ],
             "Четверг (19.09)": [
                 { subject: "Биология", classroom: "ДО", homework: "Записать конспект по биологии. Тема 1.3. Обмен веществ и превращение энергии в клетке", time: "8:30-9:00" },
@@ -1208,7 +1209,7 @@
             });
         });
 
-        // Load schedule
+        // Load schedule - FIXED VERSION
         function loadSchedule() {
             // Clear schedule container
             scheduleContainer.innerHTML = '';
@@ -1234,7 +1235,17 @@
                     
                     const lessonInfo = document.createElement('div');
                     lessonInfo.className = 'lesson-info';
-                    const timeSlot = lesson.classroom === 'ДО' ? timeSlotsDO[index] || lesson.time : lesson.time;
+                    
+                    // FIXED: Use correct time slots for ДО
+                    let timeSlot;
+                    if (lesson.classroom === 'ДО') {
+                        // For ДО lessons, use the DO time slots based on the lesson index
+                        timeSlot = timeSlotsDO[index] || lesson.time;
+                    } else {
+                        // For regular lessons, use the normal time slots
+                        timeSlot = timeSlots[index] || lesson.time;
+                    }
+                    
                     lessonInfo.innerHTML = `<i class="far fa-clock"></i> ${timeSlot} | <i class="fas fa-door-open"></i> ${lesson.classroom === 'ДО' ? 'Дистанционно' : 'Кабинет ' + lesson.classroom}`;
                     lessonElement.appendChild(lessonInfo);
                     
@@ -1250,25 +1261,15 @@
             }
         }
 
-        // Load personal cabinet
+        // Load personal cabinet - FIXED: Всегда показываем прочерки
         function loadPersonalCabinet() {
-            if (currentUser.isAdmin) {
-                rankNumber.textContent = '-';
-                fivesCount.textContent = '-';
-                foursCount.textContent = '-';
-                threesCount.textContent = '-';
-                twosCount.textContent = '-';
-                missedClasses.textContent = '-';
-                return;
-            }
-            
-            // For demo purposes, set some random stats
-            rankNumber.textContent = Math.floor(Math.random() * 25) + 1;
-            fivesCount.textContent = Math.floor(Math.random() * 10);
-            foursCount.textContent = Math.floor(Math.random() * 15);
-            threesCount.textContent = Math.floor(Math.random() * 5);
-            twosCount.textContent = Math.floor(Math.random() * 2);
-            missedClasses.textContent = Math.floor(Math.random() * 3);
+            // Для всех пользователей (включая админа и учеников) показываем прочерки
+            rankNumber.textContent = '-';
+            fivesCount.textContent = '-';
+            foursCount.textContent = '-';
+            threesCount.textContent = '-';
+            twosCount.textContent = '-';
+            missedClasses.textContent = '-';
         }
 
         // Load grades
