@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Электронный журнал ИСП 1-1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-light: #5dade2;
+            --primary-dark: #2980b9;
+            --secondary-color: #2c3e50;
+            --accent-color: #1abc9c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-dark: #27ae60;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text-color: #2c3e50;
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #e1e8ed;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --box-shadow: 0 6px 12px var(--shadow-color);
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #ecf0f1;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --secondary-color: #bdc3c7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 10px;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .login-form {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 420px;
+            animation: slideUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .login-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .login-form h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px var(--shadow-color);
+        }
+
+        /* Main App */
+        .app {
+            display: none;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            animation: slideUp 0.6s ease;
+            min-height: 90vh;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .menu-toggle {
+            font-size: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .header h2 {
+            font-size: 1.3rem;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 15px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            gap: 10px;
+        }
+
+        .user-info span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 20px 0;
+            transform: translateX(-100%);
+            transition: var(--transition);
+            position: fixed;
+            height: 100%;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px var(--shadow-color);
+            border-right: 1px solid var(--border-color);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar li i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar li:hover {
+            background: var(--primary-color);
+            color: white;
+            border-left-color: var(--accent-color);
+        }
+
+        .sidebar li.active {
+            background: var(--primary-color);
+            color: white;
+            border-left-color: var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            transition: var(--transition);
+            width: 100%;
+            background: var(--bg-color);
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: absolute;
+            width: calc(100% - 40px);
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            position: relative;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Schedule */
+        .week-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .week-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            margin: 3px;
+            font-weight: 500;
+        }
+
+        .week-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .week-display {
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            flex-grow: 1;
+            margin: 5px 15px;
+            color: var(--text-color);
+        }
+
+        .schedule {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .day {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .day:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        .day-title {
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        .lesson {
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .lesson:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .subject {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-color);
+            font-size: 1.05rem;
+        }
+
+        .lesson-info {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+        }
+
+        .lesson-info i {
+            color: var(--primary-color);
+        }
+
+        .grade {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .grade-5 { background-color: var(--success-dark); color: white; }
+        .grade-4 { background-color: var(--success); color: white; }
+        .grade-3 { background-color: var(--warning); color: white; }
+        .grade-2 { background-color: var(--danger); color: white; }
+        .grade-N { background-color: var(--secondary-color); color: white; }
+
+        .homework {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-color);
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        /* Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow-color);
+        }
+
+        .stat-title {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subject-stats {
+            margin-bottom: 12px;
+        }
+
+        .subject-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transition: width 0.8s ease;
+        }
+
+        .ranking {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .rank-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 12px 0;
+            text-shadow: 2px 2px 4px var(--shadow-color);
+        }
+
+        /* Grades */
+        .grades-container {
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            min-width: 500px;
+        }
+
+        .grades-table th, .grades-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .grades-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .grades-table tr {
+            transition: var(--transition);
+        }
+
+        .grades-table tr:hover {
+            background: var(--bg-color);
+            transform: translateX(5px);
+        }
+
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .login-form {
+                padding: 50px 40px;
+            }
+            
+            .login-form h1 {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 18px 25px;
+            }
+            
+            .header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-toggle {
+                font-size: 24px;
+            }
+            
+            .user-info span {
+                max-width: 180px;
+            }
+            
+            .logout-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                padding: 25px;
+            }
+            
+            .page {
+                width: calc(100% - 50px);
+            }
+            
+            .page-title {
+                font-size: 1.7rem;
+            }
+            
+            .week-btn {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+            
+            .week-display {
+                font-size: 1.2rem;
+            }
+            
+            .schedule {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .sidebar {
+                position: relative;
+                transform: translateX(0);
+                height: auto;
+            }
+            
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .schedule {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                padding: 15px;
+            }
+            
+            .page {
+                width: calc(100% - 30px);
+            }
+            
+            .week-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .week-btn {
+                width: 100%;
+            }
+            
+            .day {
+                padding: 15px;
+            }
+            
+            .lesson {
+                padding: 12px;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .theme-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-btn" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Login Page -->
+    <div class="container login-container" id="loginPage">
+        <div class="login-form">
+            <h1><i class="fas fa-book"></i> Электронный журнал</h1>
+            <div class="form-group">
+                <label for="fullName">Фамилия и Имя</label>
+                <input type="text" id="fullName" placeholder="Введите Фамилию и Имя">
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль">
+            </div>
+            <button class="btn" id="loginBtn">
+                <span id="loginText">Войти</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="container app" id="app">
+        <div class="header">
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2>Электронный журнал ИСП 1-1</h2>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button class="logout-btn" id="logoutBtn">Выйти</button>
+            </div>
+        </div>
+        <div class="content">
+            <!-- Sidebar Overlay for Mobile -->
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+            
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <ul>
+                    <li class="active" data-page="schedule"><i class="fas fa-calendar-alt"></i> Расписание</li>
+                    <li data-page="statistics"><i class="fas fa-chart-line"></i> Статистика</li>
+                    <li data-page="grades"><i class="fas fa-list-alt"></i> Оценки</li>
+                </ul>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content" id="mainContent">
+                <!-- Schedule Page -->
+                <div class="page active" id="schedule">
+                    <h2 class="page-title">Расписание на неделю</h2>
+                    <div class="week-navigation">
+                        <button class="week-btn" id="prevWeek"><i class="fas fa-chevron-left"></i> Предыдущая</button>
+                        <div class="week-display" id="weekDisplay">Неделя 1 (1-5 Сентября)</div>
+                        <button class="week-btn" id="nextWeek">Следующая <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="schedule" id="scheduleContainer">
+                        <!-- Schedule will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Statistics Page -->
+                <div class="page" id="statistics">
+                    <h2 class="page-title">Статистика успеваемости</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3 class="stat-title">Средние баллы по предметам</h3>
+                            <div id="subjectStats">
+                                <!-- Subject stats will be generated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h3 class="stat-title">Общая статистика</h3>
+                            <div class="ranking">
+                                <p>Ваше место в рейтинге:</p>
+                                <div class="rank-number" id="rankNumber">1</div>
+                                <p>из 26 учеников</p>
+                                <p style="margin-top: 15px;">Пятерок: <strong id="fivesCount">8</strong></p>
+                                <p>Четверок: <strong id="foursCount">5</strong></p>
+                                <p>Троек: <strong id="threesCount">2</strong></p>
+                                <p>Двоек: <strong id="twosCount">0</strong></p>
+                                <p>Пропусков: <strong id="missedClasses">2</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grades Page -->
+                <div class="page" id="grades">
+                    <h2 class="page-title">Все оценки</h2>
+                    <div class="grades-container">
+                        <table class="grades-table" id="gradesTable">
+                            <!-- Grades will be generated by JavaScript -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Time slots
+        const timeSlots = ["8:30-9:50", "10:00-11:20", "12:00-13:20", "13:30-14:50"];
+
+        // Mock data for students
+        const students = [
+            { id: 1, fullName: "1", password: "A3F", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 2, fullName: "2", password: "B7G", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 3, fullName: "3", password: "C9H", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 4, fullName: "4", password: "D2J", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 5, fullName: "5", password: "E5K", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 6, fullName: "6", password: "F8L", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 7, fullName: "7", password: "G1M", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 8, fullName: "8", password: "H4N", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 9, fullName: "9", password: "I7P", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 10, fullName: "10", password: "J0Q", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 11, fullName: "11", password: "K3R", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 12, fullName: "12", password: "L6S", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 13, fullName: "13", password: "M9T", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 14, fullName: "14", password: "N2U", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 15, fullName: "15", password: "O5V", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 16, fullName: "16", password: "P8W", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 17, fullName: "17", password: "Q1X", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 18, fullName: "18", password: "R4Y", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 19, fullName: "19", password: "S7Z", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 20, fullName: "20", password: "T0A", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 21, fullName: "21", password: "U3B", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 22, fullName: "22", password: "V6C", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 23, fullName: "23", password: "W9D", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 24, fullName: "24", password: "X2E", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 25, fullName: "25", password: "Y5F", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 26, fullName: "26", password: "Z8G", profession: "ИСП 1-1 (Информационные системы и программирование)" }
+        ];
+
+        // Add admin user
+        students.push({
+            id: 27,
+            fullName: "Админ",
+            password: "Dom.5526",
+            profession: "Администратор",
+            isAdmin: true
+        });
+
+        // Mock data for subjects
+        const subjects = [
+            "Программирование",
+            "Базы данных",
+            "Веб-разработка",
+            "Сетевые технологии",
+            "Операционные системы",
+            "Математика",
+            "Английский язык",
+            "Физическая культура"
+        ];
+
+        // Current user and state
+        let currentUser = null;
+        let currentWeek = 0;
+        let currentTheme = 'light';
+
+        // DOM elements
+        const loginPage = document.getElementById('loginPage');
+        const app = document.getElementById('app');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginText = document.getElementById('loginText');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const fullNameInput = document.getElementById('fullName');
+        const passwordInput = document.getElementById('password');
+        const userNameSpan = document.getElementById('userName');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const mainContent = document.getElementById('mainContent');
+        const navItems = document.querySelectorAll('.sidebar li');
+        const pages = document.querySelectorAll('.page');
+        const scheduleContainer = document.getElementById('scheduleContainer');
+        const weekDisplay = document.getElementById('weekDisplay');
+        const prevWeekBtn = document.getElementById('prevWeek');
+        const nextWeekBtn = document.getElementById('nextWeek');
+        const subjectStats = document.getElementById('subjectStats');
+        const rankNumber = document.getElementById('rankNumber');
+        const fivesCount = document.getElementById('fivesCount');
+        const foursCount = document.getElementById('foursCount');
+        const threesCount = document.getElementById('threesCount');
+        const twosCount = document.getElementById('twosCount');
+        const missedClasses = document.getElementById('missedClasses');
+        const gradesTable = document.getElementById('gradesTable');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Theme management
+        function toggleTheme() {
+            if (currentTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                currentTheme = 'dark';
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                currentTheme = 'light';
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Generate schedule for a week
+        function generateSchedule(weekOffset = 0) {
+            const days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница"];
+            const schedule = {};
+            
+            days.forEach(day => {
+                schedule[day] = [];
+                
+                // Generate 3-4 lessons per day
+                const numLessons = Math.floor(Math.random() * 2) + 3;
+                
+                for (let i = 0; i < numLessons; i++) {
+                    const subject = subjects[Math.floor(Math.random() * subjects.length)];
+                    const timeSlot = timeSlots[i];
+                    // Generate random classroom number
+                    const classroom = `${Math.floor(Math.random() * 3) + 1}0${Math.floor(Math.random() * 3) + 1}`;
+                    
+                    // Generate homework
+                    const homeworkExamples = [
+                        "Подготовить презентацию",
+                        "Решить задачи по теме",
+                        "Написать программу",
+                        "Подготовиться к тесту",
+                        "Прочитать материал",
+                        "Сделать проект"
+                    ];
+                    const homework = homeworkExamples[Math.floor(Math.random() * homeworkExamples.length)];
+                    
+                    schedule[day].push({
+                        subject,
+                        time: timeSlot,
+                        classroom,
+                        homework
+                    });
+                }
+            });
+            
+            return schedule;
+        }
+
+        // Get schedule for a specific week
+        function getSchedule(weekOffset) {
+            // Always generate fresh schedule for demo
+            return generateSchedule(weekOffset);
+        }
+
+        // Generate demo grades for a student
+        function generateDemoGrades(studentId) {
+            const grades = [];
+            const numGrades = Math.floor(Math.random() * 10) + 5; // 5-15 grades
+            
+            for (let i = 0; i < numGrades; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - Math.floor(Math.random() * 30)); // Last 30 days
+                
+                const subject = subjects[Math.floor(Math.random() * subjects.length)];
+                const gradeValues = [2, 3, 4, 5];
+                const grade = gradeValues[Math.floor(Math.random() * gradeValues.length)];
+                const type = ["Контрольная", "Тест", "Практика", "Домашняя работа"][Math.floor(Math.random() * 4)];
+                
+                grades.push({
+                    date: date.toLocaleDateString('ru-RU'),
+                    subject,
+                    grade,
+                    type
+                });
+            }
+            
+            // Add some absences
+            const numAbsences = Math.floor(Math.random() * 3);
+            for (let i = 0; i < numAbsences; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - Math.floor(Math.random() * 30));
+                
+                const subject = subjects[Math.floor(Math.random() * subjects.length)];
+                
+                grades.push({
+                    date: date.toLocaleDateString('ru-RU'),
+                    subject,
+                    grade: 'Н',
+                    type: "Пропуск"
+                });
+            }
+            
+            return grades.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+
+        // Calculate grade counts for a student
+        function calculateGradeCounts(studentId) {
+            const grades = generateDemoGrades(studentId);
+            const counts = {
+                5: 0,
+                4: 0,
+                3: 0,
+                2: 0,
+                'Н': 0
+            };
+            
+            grades.forEach(grade => {
+                if (counts.hasOwnProperty(grade.grade)) {
+                    counts[grade.grade]++;
+                }
+            });
+            
+            return counts;
+        }
+
+        // Calculate ranking for students based on 5s, then 4s, then 3s
+        function calculateRanking() {
+            const studentScores = [];
+            
+            students.forEach(student => {
+                if (!student.isAdmin) {
+                    const gradeCounts = calculateGradeCounts(student.id);
+                    
+                    // Create a score that prioritizes 5s, then 4s, then 3s
+                    // This creates a numeric value where 5s are worth 1000 points,
+                    // 4s are worth 100 points, and 3s are worth 10 points
+                    const score = gradeCounts[5] * 1000 + gradeCounts[4] * 100 + gradeCounts[3] * 10;
+                    
+                    studentScores.push({
+                        id: student.id,
+                        score: score,
+                        fives: gradeCounts[5],
+                        fours: gradeCounts[4],
+                        threes: gradeCounts[3],
+                        twos: gradeCounts[2],
+                        absences: gradeCounts['Н']
+                    });
+                }
+            });
+            
+            // Sort by score descending
+            studentScores.sort((a, b) => b.score - a.score);
+            
+            return studentScores;
+        }
+
+        // Get student rank
+        function getStudentRank(studentId, ranking) {
+            for (let i = 0; i < ranking.length; i++) {
+                if (ranking[i].id === studentId) {
+                    return i + 1;
+                }
+            }
+            return ranking.length + 1;
+        }
+
+        // Calculate average grade by subject for a student
+        function calculateSubjectAverage(studentId, subject) {
+            const grades = generateDemoGrades(studentId);
+            const subjectGrades = grades
+                .filter(g => g.subject === subject && g.grade !== 'Н' && !isNaN(g.grade))
+                .map(g => parseInt(g.grade));
+            
+            if (subjectGrades.length === 0) return 0;
+            
+            const sum = subjectGrades.reduce((a, b) => a + b, 0);
+            return (sum / subjectGrades.length).toFixed(1);
+        }
+
+        // Login user
+        function loginUser(user) {
+            currentUser = user;
+            loginPage.style.display = 'none';
+            app.style.display = 'block';
+            userNameSpan.textContent = user.fullName;
+            
+            // Load user data
+            loadSchedule();
+            loadStatistics();
+            loadGrades();
+        }
+
+        // Event Listeners
+        themeToggle.addEventListener('click', toggleTheme);
+
+        loginBtn.addEventListener('click', () => {
+            const fullName = fullNameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            if (!fullName || !password) {
+                alert('Пожалуйста, заполните все поля');
+                return;
+            }
+            
+            // Show loading
+            loginText.innerHTML = '<div class="loading"></div>';
+            
+            // Simulate login delay
+            setTimeout(() => {
+                const user = students.find(s => 
+                    s.fullName.toLowerCase() === fullName.toLowerCase() && 
+                    s.password === password
+                );
+                
+                if (user) {
+                    loginUser(user);
+                } else {
+                    alert('Неверные ФИО или пароль');
+                    loginText.textContent = 'Войти';
+                }
+            }, 1000);
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            currentUser = null;
+            app.style.display = 'none';
+            loginPage.style.display = 'flex';
+            fullNameInput.value = '';
+            passwordInput.value = '';
+            loginText.textContent = 'Войти';
+        });
+
+        // Toggle sidebar on mobile
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking on overlay
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Navigation with smooth transitions
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const pageId = item.getAttribute('data-page');
+                const currentPage = document.querySelector('.page.active');
+                const nextPage = document.getElementById(pageId);
+                
+                if (currentPage && nextPage && currentPage !== nextPage) {
+                    // Animate out current page
+                    currentPage.style.opacity = '0';
+                    currentPage.style.transform = 'translateX(-20px)';
+                    
+                    setTimeout(() => {
+                        currentPage.classList.remove('active');
+                        
+                        // Update active nav item
+                        navItems.forEach(nav => nav.classList.remove('active'));
+                        item.classList.add('active');
+                        
+                        // Animate in next page
+                        nextPage.classList.add('active');
+                        setTimeout(() => {
+                            nextPage.style.opacity = '1';
+                            nextPage.style.transform = 'translateX(0)';
+                        }, 50);
+                        
+                        // Close sidebar on mobile after selection
+                        if (window.innerWidth <= 767) {
+                            sidebar.classList.remove('active');
+                            sidebarOverlay.classList.remove('active');
+                        }
+                        
+                        // Reload grades page when navigating to it
+                        if (pageId === 'grades') {
+                            loadGrades();
+                        }
+                    }, 300);
+                }
+            });
+        });
+
+        // Week navigation
+        prevWeekBtn.addEventListener('click', () => {
+            currentWeek--;
+            loadSchedule();
+        });
+
+        nextWeekBtn.addEventListener('click', () => {
+            currentWeek++;
+            loadSchedule();
+        });
+
+        // Load schedule
+        function loadSchedule() {
+            const schedule = getSchedule(currentWeek);
+            
+            // Update week display
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() + currentWeek * 7);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 4);
+            
+            const startStr = startDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+            const endStr = endDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+            
+            weekDisplay.textContent = `Неделя ${Math.abs(currentWeek) + 1} (${startStr} - ${endStr})`;
+            
+            // Clear schedule container
+            scheduleContainer.innerHTML = '';
+            
+            // Generate schedule HTML
+            for (const day in schedule) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.id = `day-${day}`;
+                
+                const dayTitle = document.createElement('h3');
+                dayTitle.className = 'day-title';
+                dayTitle.textContent = day;
+                dayElement.appendChild(dayTitle);
+                
+                schedule[day].forEach((lesson, index) => {
+                    const lessonElement = document.createElement('div');
+                    lessonElement.className = 'lesson';
+                    
+                    const subject = document.createElement('div');
+                    subject.className = 'subject';
+                    subject.textContent = lesson.subject;
+                    lessonElement.appendChild(subject);
+                    
+                    const lessonInfo = document.createElement('div');
+                    lessonInfo.className = 'lesson-info';
+                    lessonInfo.innerHTML = `<i class="far fa-clock"></i> ${lesson.time} | <i class="fas fa-door-open"></i> Кабинет ${lesson.classroom}`;
+                    lessonElement.appendChild(lessonInfo);
+                    
+                    // Add grade for students (demo data)
+                    if (!currentUser.isAdmin) {
+                        const grades = generateDemoGrades(currentUser.id);
+                        const lessonDate = new Date();
+                        lessonDate.setDate(lessonDate.getDate() + currentWeek * 7 + ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'].indexOf(day));
+                        const dateStr = lessonDate.toLocaleDateString('ru-RU');
+                        
+                        const gradeForLesson = grades.find(g => 
+                            g.subject === lesson.subject && g.date === dateStr
+                        );
+                        
+                        if (gradeForLesson) {
+                            const grade = document.createElement('div');
+                            grade.className = `grade grade-${gradeForLesson.grade}`;
+                            grade.textContent = gradeForLesson.grade;
+                            lessonElement.appendChild(grade);
+                        }
+                    }
+                    
+                    const homework = document.createElement('div');
+                    homework.className = 'homework';
+                    homework.innerHTML = `<strong>ДЗ:</strong> ${lesson.homework}`;
+                    lessonElement.appendChild(homework);
+                    
+                    dayElement.appendChild(lessonElement);
+                });
+                
+                scheduleContainer.appendChild(dayElement);
+            }
+        }
+
+        // Load statistics
+        function loadStatistics() {
+            if (currentUser.isAdmin) {
+                subjectStats.innerHTML = '<p>Статистика доступна только для учеников</p>';
+                rankNumber.textContent = '-';
+                fivesCount.textContent = '-';
+                foursCount.textContent = '-';
+                threesCount.textContent = '-';
+                twosCount.textContent = '-';
+                missedClasses.textContent = '-';
+                return;
+            }
+            
+            // Calculate grade counts
+            const gradeCounts = calculateGradeCounts(currentUser.id);
+            
+            // Calculate average grades per subject
+            const subjectAverages = {};
+            subjects.forEach(subject => {
+                const avg = calculateSubjectAverage(currentUser.id, subject);
+                subjectAverages[subject] = avg > 0 ? avg : 'Нет оценок';
+            });
+            
+            // Generate subject stats HTML
+            subjectStats.innerHTML = '';
+            for (const subject in subjectAverages) {
+                const subjectElement = document.createElement('div');
+                subjectElement.className = 'subject-stats';
+                
+                const subjectName = document.createElement('div');
+                subjectName.className = 'subject-name';
+                subjectName.innerHTML = `<span>${subject}</span><span>${subjectAverages[subject]}</span>`;
+                subjectElement.appendChild(subjectName);
+                
+                if (subjectAverages[subject] !== 'Нет оценок') {
+                    const progressBar = document.createElement('div');
+                    progressBar.className = 'progress-bar';
+                    
+                    const progress = document.createElement('div');
+                    progress.className = 'progress';
+                    progress.style.width = `${(subjectAverages[subject] / 5) * 100}%`;
+                    progressBar.appendChild(progress);
+                    
+                    subjectElement.appendChild(progressBar);
+                }
+                
+                subjectStats.appendChild(subjectElement);
+            }
+            
+            // Calculate ranking
+            const ranking = calculateRanking();
+            const rank = getStudentRank(currentUser.id, ranking);
+            
+            // Update statistics
+            rankNumber.textContent = rank;
+            fivesCount.textContent = gradeCounts[5];
+            foursCount.textContent = gradeCounts[4];
+            threesCount.textContent = gradeCounts[3];
+            twosCount.textContent = gradeCounts[2];
+            missedClasses.textContent = gradeCounts['Н'];
+        }
+
+        // Load grades
+        function loadGrades() {
+            if (currentUser.isAdmin) {
+                gradesTable.innerHTML = '<tr><td colspan="2" style="text-align: center;">Оценки доступны только для учеников</td></tr>';
+                return;
+            }
+            
+            const grades = generateDemoGrades(currentUser.id);
+            
+            // Group grades by subject
+            const gradesBySubject = {};
+            grades.forEach(grade => {
+                if (!gradesBySubject[grade.subject]) {
+                    gradesBySubject[grade.subject] = [];
+                }
+                gradesBySubject[grade.subject].push(grade);
+            });
+            
+            // Clear grades table
+            gradesTable.innerHTML = '';
+            
+            // Create header
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+                <th>Предмет</th>
+                <th>Оценки</th>
+            `;
+            gradesTable.appendChild(headerRow);
+            
+            // Add grades for each subject
+            for (const subject in gradesBySubject) {
+                const row = document.createElement('tr');
+                
+                const subjectCell = document.createElement('td');
+                subjectCell.textContent = subject;
+                row.appendChild(subjectCell);
+                
+                const gradesCell = document.createElement('td');
+                gradesBySubject[subject].forEach(grade => {
+                    const gradeElement = document.createElement('div');
+                    gradeElement.style.display = 'inline-block';
+                    gradeElement.style.margin = '0 5px 5px 0';
+                    
+                    const gradeSpan = document.createElement('span');
+                    gradeSpan.className = `grade grade-${grade.grade}`;
+                    gradeSpan.textContent = grade.grade;
+                    gradeElement.appendChild(gradeSpan);
+                    
+                    const dateElement = document.createElement('div');
+                    dateElement.style.fontSize = '0.7rem';
+                    dateElement.style.color = 'var(--text-color)';
+                    dateElement.style.opacity = '0.7';
+                    dateElement.textContent = grade.date;
+                    gradeElement.appendChild(dateElement);
+                    
+                    gradesCell.appendChild(gradeElement);
+                });
+                row.appendChild(gradesCell);
+                
+                gradesTable.appendChild(row);
+            }
+            
+            // Show message if no grades
+            if (Object.keys(gradesBySubject).length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="2" style="text-align: center;">Нет оценок</td>';
+                gradesTable.appendChild(row);
+            }
+        }
+
+        // Initialize the app
+        loadSchedule();
+    </script>
+</body>
+</html>
