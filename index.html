@@ -14,7 +14,7 @@
             --accent-color: #1abc9c;
             --light-color: #ecf0f1;
             --dark-color: #34495e;
-            --success-dark: #27ae60;
+            --success-dark: #1e7e34;
             --success: #2ecc71;
             --warning: #f39c12;
             --danger: #e74c3c;
@@ -361,47 +361,6 @@
         }
 
         /* Schedule */
-        .week-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 8px var(--shadow-color);
-            border: 1px solid var(--border-color);
-        }
-
-        .week-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            margin: 3px;
-            font-weight: 500;
-        }
-
-        .week-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
-
-        .week-display {
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-align: center;
-            flex-grow: 1;
-            margin: 5px 15px;
-            color: var(--text-color);
-        }
-
         .schedule {
             display: grid;
             grid-template-columns: 1fr;
@@ -491,6 +450,75 @@
             padding-top: 10px;
             border-top: 1px dashed var(--border-color);
             margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        /* Personal Cabinet */
+        .personal-cabinet {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .avatar-section {
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            margin: 0 auto 15px;
+            display: block;
+        }
+
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .avatar-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .user-details {
+            margin-bottom: 20px;
+        }
+
+        .user-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .user-profession {
+            font-size: 1rem;
             opacity: 0.8;
         }
 
@@ -705,15 +733,6 @@
                 font-size: 1.7rem;
             }
             
-            .week-btn {
-                font-size: 1rem;
-                padding: 12px 20px;
-            }
-            
-            .week-display {
-                font-size: 1.2rem;
-            }
-            
             .schedule {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 20px;
@@ -722,6 +741,14 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 25px;
+            }
+            
+            .personal-cabinet {
+                flex-direction: row;
+            }
+            
+            .profile-card {
+                flex: 1;
             }
             
             .sidebar {
@@ -755,15 +782,6 @@
                 width: calc(100% - 30px);
             }
             
-            .week-navigation {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .week-btn {
-                width: 100%;
-            }
-            
             .day {
                 padding: 15px;
             }
@@ -781,6 +799,11 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
+            }
+            
+            .avatar {
+                width: 100px;
+                height: 100px;
             }
         }
     </style>
@@ -831,7 +854,7 @@
             <div class="sidebar" id="sidebar">
                 <ul>
                     <li class="active" data-page="schedule"><i class="fas fa-calendar-alt"></i> Расписание</li>
-                    <li data-page="statistics"><i class="fas fa-chart-line"></i> Статистика</li>
+                    <li data-page="personal"><i class="fas fa-user"></i> Личный кабинет</li>
                     <li data-page="grades"><i class="fas fa-list-alt"></i> Оценки</li>
                 </ul>
             </div>
@@ -841,37 +864,41 @@
                 <!-- Schedule Page -->
                 <div class="page active" id="schedule">
                     <h2 class="page-title">Расписание на неделю</h2>
-                    <div class="week-navigation">
-                        <button class="week-btn" id="prevWeek"><i class="fas fa-chevron-left"></i> Предыдущая</button>
-                        <div class="week-display" id="weekDisplay">Неделя 1 (1-5 Сентября)</div>
-                        <button class="week-btn" id="nextWeek">Следующая <i class="fas fa-chevron-right"></i></button>
-                    </div>
                     <div class="schedule" id="scheduleContainer">
                         <!-- Schedule will be generated by JavaScript -->
                     </div>
                 </div>
                 
-                <!-- Statistics Page -->
-                <div class="page" id="statistics">
-                    <h2 class="page-title">Статистика успеваемости</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h3 class="stat-title">Средние баллы по предметам</h3>
-                            <div id="subjectStats">
-                                <!-- Subject stats will be generated by JavaScript -->
+                <!-- Personal Cabinet Page -->
+                <div class="page" id="personal">
+                    <h2 class="page-title">Личный кабинет</h2>
+                    <div class="personal-cabinet">
+                        <div class="profile-card">
+                            <div class="avatar-section">
+                                <img src="" alt="Аватар" class="avatar" id="userAvatar">
+                                <div class="avatar-upload">
+                                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                                    <button class="avatar-btn" id="avatarUploadBtn">Загрузить аватар</button>
+                                    <small>PNG, JPG до 2MB</small>
+                                </div>
+                            </div>
+                            <div class="user-details">
+                                <div class="user-name" id="profileUserName"></div>
+                                <div class="user-profession" id="userProfession"></div>
                             </div>
                         </div>
+                        
                         <div class="stat-card">
                             <h3 class="stat-title">Общая статистика</h3>
                             <div class="ranking">
                                 <p>Ваше место в рейтинге:</p>
                                 <div class="rank-number" id="rankNumber">1</div>
-                                <p>из 26 учеников</p>
-                                <p style="margin-top: 15px;">Пятерок: <strong id="fivesCount">8</strong></p>
-                                <p>Четверок: <strong id="foursCount">5</strong></p>
-                                <p>Троек: <strong id="threesCount">2</strong></p>
+                                <p>из 25 учеников</p>
+                                <p style="margin-top: 15px;">Пятерок: <strong id="fivesCount">0</strong></p>
+                                <p>Четверок: <strong id="foursCount">0</strong></p>
+                                <p>Троек: <strong id="threesCount">0</strong></p>
                                 <p>Двоек: <strong id="twosCount">0</strong></p>
-                                <p>Пропусков: <strong id="missedClasses">2</strong></p>
+                                <p>Пропусков: <strong id="missedClasses">0</strong></p>
                             </div>
                         </div>
                     </div>
@@ -893,61 +920,79 @@
     <script>
         // Time slots
         const timeSlots = ["8:30-9:50", "10:00-11:20", "12:00-13:20", "13:30-14:50"];
+        const timeSlotsDO = ["8:30-9:00", "10:00-10:30", "12:00-12:30", "13:30-14:00"];
 
-        // Mock data for students
+        // Students data
         const students = [
-            { id: 1, fullName: "1", password: "A3F", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 2, fullName: "2", password: "B7G", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 3, fullName: "3", password: "C9H", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 4, fullName: "4", password: "D2J", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 5, fullName: "5", password: "E5K", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 6, fullName: "6", password: "F8L", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 7, fullName: "7", password: "G1M", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 8, fullName: "8", password: "H4N", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 9, fullName: "9", password: "I7P", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 10, fullName: "10", password: "J0Q", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 11, fullName: "11", password: "K3R", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 12, fullName: "12", password: "L6S", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 13, fullName: "13", password: "M9T", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 14, fullName: "14", password: "N2U", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 15, fullName: "15", password: "O5V", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 16, fullName: "16", password: "P8W", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 17, fullName: "17", password: "Q1X", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 18, fullName: "18", password: "R4Y", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 19, fullName: "19", password: "S7Z", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 20, fullName: "20", password: "T0A", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 21, fullName: "21", password: "U3B", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 22, fullName: "22", password: "V6C", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 23, fullName: "23", password: "W9D", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 24, fullName: "24", password: "X2E", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 25, fullName: "25", password: "Y5F", profession: "ИСП 1-1 (Информационные системы и программирование)" },
-            { id: 26, fullName: "26", password: "Z8G", profession: "ИСП 1-1 (Информационные системы и программирование)" }
+            { id: 1, fullName: "Хренков Илья", password: "A3F", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 2, fullName: "Воинов Павел", password: "B7G", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 3, fullName: "Плясова Дарья", password: "C9H", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 4, fullName: "Пшеницын Борис", password: "D2J", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 5, fullName: "Чоп Анатолий", password: "E5K", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 6, fullName: "Разиньков Алексей", password: "F8L", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 7, fullName: "Картамышев Иван", password: "G1M", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 8, fullName: "Бузыкин Владислав", password: "H4N", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 9, fullName: "Гвоздилин Дмитрий", password: "I7P", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 10, fullName: "Гримов Александр", password: "J0Q", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 11, fullName: "Гусенцев Алексей", password: "K3R", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 12, fullName: "Евдокимов Артем", password: "L6S", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 13, fullName: "Жмакина Дарья", password: "M9T", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 14, fullName: "Лукьянчиков Ярослав", password: "N2U", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 15, fullName: "Макуха Милана", password: "O5V", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 16, fullName: "Мащенко Анастасия", password: "P8W", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 17, fullName: "Наумов Константин", password: "Q1X", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 18, fullName: "Ненахов Дмитрий", password: "R4Y", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 19, fullName: "Писарев Андрей", password: "S7Z", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 20, fullName: "Савенков Артем", password: "T0A", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 21, fullName: "Сотникова Екатерина", password: "U3B", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 22, fullName: "Труфанова Анастасия", password: "V6C", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 23, fullName: "Филоненко Никита", password: "W9D", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 24, fullName: "Чернов Максим", password: "X2E", profession: "ИСП 1-1 (Информационные системы и программирование)" },
+            { id: 25, fullName: "Щербина Егор", password: "Y5F", profession: "ИСП 1-1 (Информационные системы и программирование)" }
         ];
 
         // Add admin user
         students.push({
-            id: 27,
+            id: 26,
             fullName: "Админ",
             password: "Dom.5526",
             profession: "Администратор",
             isAdmin: true
         });
 
-        // Mock data for subjects
-        const subjects = [
-            "Программирование",
-            "Базы данных",
-            "Веб-разработка",
-            "Сетевые технологии",
-            "Операционные системы",
-            "Математика",
-            "Английский язык",
-            "Физическая культура"
-        ];
+        // Schedule data
+        const scheduleData = {
+            "Понедельник (16.09)": [
+                { subject: "ОБЖ", classroom: "10", homework: "Подготовиться к отработке первой помощи", time: "8:30-9:50" },
+                { subject: "Русский язык", classroom: "36", homework: "Подготовиться к контрольной по всем стилям речи", time: "10:00-11:20" },
+                { subject: "Математика", classroom: "31", homework: "ДЗ в группе", time: "12:00-13:20" },
+                { subject: "История", classroom: "32", homework: "Конспект файла", time: "13:30-14:50" }
+            ],
+            "Вторник (17.09)": [
+                { subject: "Обществознание", classroom: "ДО", homework: "Повторите конспект по экономике, будет спрашивать", time: "8:30-9:00" }
+            ],
+            "Среда (18.09)": [
+                { subject: "Английский язык (Группа 1)", classroom: "44а", homework: "ДЗ в группе", time: "8:30-9:50" },
+                { subject: "Английский язык (Группа 2)", classroom: "45", homework: "ДЗ в группе", time: "8:30-9:50" },
+                { subject: "Физическая культура", classroom: "С3.2", homework: "ДЗ в группе", time: "10:00-11:20" },
+                { subject: "Математика", classroom: "ДО", homework: "ДЗ в группе", time: "12:00-12:30" },
+                { subject: "История", classroom: "ДО", homework: "ДЗ в группе", time: "13:30-14:00" }
+            ],
+            "Четверг (19.09)": [
+                { subject: "Биология", classroom: "ДО", homework: "Записать конспект по биологии. Тема 1.3. Обмен веществ и превращение энергии в клетке", time: "8:30-9:00" },
+                { subject: "Математика", classroom: "ДО", homework: "Знать формулы, а также определения синуса, косинуса и угла в один радиан", time: "10:00-10:30" },
+                { subject: "Литература", classroom: "ДО", homework: "Гончаров роман «Обломов»", time: "12:00-12:30" },
+                { subject: "Химия", classroom: "ДО", homework: "Конспект темы 4: Типы химических реакций. Классификация реакций: соединения, разложения, замещения, обмена. А также написать в тетради лабораторную работу №1", time: "13:30-14:00" }
+            ],
+            "Пятница (20.09)": [
+                { subject: "Физика", classroom: "45", homework: "ДЗ в группе", time: "8:30-9:50" },
+                { subject: "Основы безопасности и защиты Родины", classroom: "10", homework: "Записать определение первой помощи и алгоритм", time: "10:00-11:20" },
+                { subject: "География", classroom: "ДО", homework: "Была практическая работа. Кто не принёс контурные карты — приносите! Последняя возможность может быть", time: "12:00-12:30" }
+            ]
+        };
 
         // Current user and state
         let currentUser = null;
-        let currentWeek = 0;
         let currentTheme = 'light';
 
         // DOM elements
@@ -959,6 +1004,11 @@
         const fullNameInput = document.getElementById('fullName');
         const passwordInput = document.getElementById('password');
         const userNameSpan = document.getElementById('userName');
+        const profileUserName = document.getElementById('profileUserName');
+        const userProfession = document.getElementById('userProfession');
+        const userAvatar = document.getElementById('userAvatar');
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarUploadBtn = document.getElementById('avatarUploadBtn');
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -966,10 +1016,6 @@
         const navItems = document.querySelectorAll('.sidebar li');
         const pages = document.querySelectorAll('.page');
         const scheduleContainer = document.getElementById('scheduleContainer');
-        const weekDisplay = document.getElementById('weekDisplay');
-        const prevWeekBtn = document.getElementById('prevWeek');
-        const nextWeekBtn = document.getElementById('nextWeek');
-        const subjectStats = document.getElementById('subjectStats');
         const rankNumber = document.getElementById('rankNumber');
         const fivesCount = document.getElementById('fivesCount');
         const foursCount = document.getElementById('foursCount');
@@ -980,178 +1026,69 @@
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
 
+        // Check if user is already logged in
+        function checkLoggedIn() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                loginUser(user);
+            }
+        }
+
         // Theme management
         function toggleTheme() {
             if (currentTheme === 'light') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 currentTheme = 'dark';
                 themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
             } else {
                 document.documentElement.removeAttribute('data-theme');
                 currentTheme = 'light';
                 themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
             }
         }
 
-        // Generate schedule for a week
-        function generateSchedule(weekOffset = 0) {
-            const days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница"];
-            const schedule = {};
-            
-            days.forEach(day => {
-                schedule[day] = [];
-                
-                // Generate 3-4 lessons per day
-                const numLessons = Math.floor(Math.random() * 2) + 3;
-                
-                for (let i = 0; i < numLessons; i++) {
-                    const subject = subjects[Math.floor(Math.random() * subjects.length)];
-                    const timeSlot = timeSlots[i];
-                    // Generate random classroom number
-                    const classroom = `${Math.floor(Math.random() * 3) + 1}0${Math.floor(Math.random() * 3) + 1}`;
-                    
-                    // Generate homework
-                    const homeworkExamples = [
-                        "Подготовить презентацию",
-                        "Решить задачи по теме",
-                        "Написать программу",
-                        "Подготовиться к тесту",
-                        "Прочитать материал",
-                        "Сделать проект"
-                    ];
-                    const homework = homeworkExamples[Math.floor(Math.random() * homeworkExamples.length)];
-                    
-                    schedule[day].push({
-                        subject,
-                        time: timeSlot,
-                        classroom,
-                        homework
-                    });
-                }
-            });
-            
-            return schedule;
-        }
-
-        // Get schedule for a specific week
-        function getSchedule(weekOffset) {
-            // Always generate fresh schedule for demo
-            return generateSchedule(weekOffset);
-        }
-
-        // Generate demo grades for a student
-        function generateDemoGrades(studentId) {
-            const grades = [];
-            const numGrades = Math.floor(Math.random() * 10) + 5; // 5-15 grades
-            
-            for (let i = 0; i < numGrades; i++) {
-                const date = new Date();
-                date.setDate(date.getDate() - Math.floor(Math.random() * 30)); // Last 30 days
-                
-                const subject = subjects[Math.floor(Math.random() * subjects.length)];
-                const gradeValues = [2, 3, 4, 5];
-                const grade = gradeValues[Math.floor(Math.random() * gradeValues.length)];
-                const type = ["Контрольная", "Тест", "Практика", "Домашняя работа"][Math.floor(Math.random() * 4)];
-                
-                grades.push({
-                    date: date.toLocaleDateString('ru-RU'),
-                    subject,
-                    grade,
-                    type
-                });
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                currentTheme = 'dark';
+                themeIcon.className = 'fas fa-sun';
             }
-            
-            // Add some absences
-            const numAbsences = Math.floor(Math.random() * 3);
-            for (let i = 0; i < numAbsences; i++) {
-                const date = new Date();
-                date.setDate(date.getDate() - Math.floor(Math.random() * 30));
+        }
+
+        // Avatar management
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Файл слишком большой. Максимальный размер 2MB.');
+                    return;
+                }
                 
-                const subject = subjects[Math.floor(Math.random() * subjects.length)];
-                
-                grades.push({
-                    date: date.toLocaleDateString('ru-RU'),
-                    subject,
-                    grade: 'Н',
-                    type: "Пропуск"
-                });
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userAvatar.src = e.target.result;
+                    if (currentUser) {
+                        localStorage.setItem(`avatar_${currentUser.id}`, e.target.result);
+                    }
+                };
+                reader.readAsDataURL(file);
             }
-            
-            return grades.sort((a, b) => new Date(b.date) - new Date(a.date));
         }
 
-        // Calculate grade counts for a student
-        function calculateGradeCounts(studentId) {
-            const grades = generateDemoGrades(studentId);
-            const counts = {
-                5: 0,
-                4: 0,
-                3: 0,
-                2: 0,
-                'Н': 0
-            };
-            
-            grades.forEach(grade => {
-                if (counts.hasOwnProperty(grade.grade)) {
-                    counts[grade.grade]++;
-                }
-            });
-            
-            return counts;
-        }
-
-        // Calculate ranking for students based on 5s, then 4s, then 3s
-        function calculateRanking() {
-            const studentScores = [];
-            
-            students.forEach(student => {
-                if (!student.isAdmin) {
-                    const gradeCounts = calculateGradeCounts(student.id);
-                    
-                    // Create a score that prioritizes 5s, then 4s, then 3s
-                    // This creates a numeric value where 5s are worth 1000 points,
-                    // 4s are worth 100 points, and 3s are worth 10 points
-                    const score = gradeCounts[5] * 1000 + gradeCounts[4] * 100 + gradeCounts[3] * 10;
-                    
-                    studentScores.push({
-                        id: student.id,
-                        score: score,
-                        fives: gradeCounts[5],
-                        fours: gradeCounts[4],
-                        threes: gradeCounts[3],
-                        twos: gradeCounts[2],
-                        absences: gradeCounts['Н']
-                    });
-                }
-            });
-            
-            // Sort by score descending
-            studentScores.sort((a, b) => b.score - a.score);
-            
-            return studentScores;
-        }
-
-        // Get student rank
-        function getStudentRank(studentId, ranking) {
-            for (let i = 0; i < ranking.length; i++) {
-                if (ranking[i].id === studentId) {
-                    return i + 1;
+        function loadAvatar() {
+            if (currentUser) {
+                const savedAvatar = localStorage.getItem(`avatar_${currentUser.id}`);
+                if (savedAvatar) {
+                    userAvatar.src = savedAvatar;
+                } else {
+                    userAvatar.src = '';
                 }
             }
-            return ranking.length + 1;
-        }
-
-        // Calculate average grade by subject for a student
-        function calculateSubjectAverage(studentId, subject) {
-            const grades = generateDemoGrades(studentId);
-            const subjectGrades = grades
-                .filter(g => g.subject === subject && g.grade !== 'Н' && !isNaN(g.grade))
-                .map(g => parseInt(g.grade));
-            
-            if (subjectGrades.length === 0) return 0;
-            
-            const sum = subjectGrades.reduce((a, b) => a + b, 0);
-            return (sum / subjectGrades.length).toFixed(1);
         }
 
         // Login user
@@ -1160,15 +1097,23 @@
             loginPage.style.display = 'none';
             app.style.display = 'block';
             userNameSpan.textContent = user.fullName;
+            profileUserName.textContent = user.fullName;
+            userProfession.textContent = user.profession;
+            
+            // Save login state
+            localStorage.setItem('currentUser', JSON.stringify(user));
             
             // Load user data
+            loadAvatar();
             loadSchedule();
-            loadStatistics();
+            loadPersonalCabinet();
             loadGrades();
         }
 
         // Event Listeners
         themeToggle.addEventListener('click', toggleTheme);
+        avatarUploadBtn.addEventListener('click', () => avatarInput.click());
+        avatarInput.addEventListener('change', handleAvatarUpload);
 
         loginBtn.addEventListener('click', () => {
             const fullName = fullNameInput.value.trim();
@@ -1205,6 +1150,7 @@
             fullNameInput.value = '';
             passwordInput.value = '';
             loginText.textContent = 'Войти';
+            localStorage.removeItem('currentUser');
         });
 
         // Toggle sidebar on mobile
@@ -1251,8 +1197,10 @@
                             sidebarOverlay.classList.remove('active');
                         }
                         
-                        // Reload grades page when navigating to it
-                        if (pageId === 'grades') {
+                        // Load data for specific pages
+                        if (pageId === 'personal') {
+                            loadPersonalCabinet();
+                        } else if (pageId === 'grades') {
                             loadGrades();
                         }
                     }, 300);
@@ -1260,47 +1208,22 @@
             });
         });
 
-        // Week navigation
-        prevWeekBtn.addEventListener('click', () => {
-            currentWeek--;
-            loadSchedule();
-        });
-
-        nextWeekBtn.addEventListener('click', () => {
-            currentWeek++;
-            loadSchedule();
-        });
-
         // Load schedule
         function loadSchedule() {
-            const schedule = getSchedule(currentWeek);
-            
-            // Update week display
-            const startDate = new Date();
-            startDate.setDate(startDate.getDate() + currentWeek * 7);
-            const endDate = new Date(startDate);
-            endDate.setDate(startDate.getDate() + 4);
-            
-            const startStr = startDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-            const endStr = endDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-            
-            weekDisplay.textContent = `Неделя ${Math.abs(currentWeek) + 1} (${startStr} - ${endStr})`;
-            
             // Clear schedule container
             scheduleContainer.innerHTML = '';
             
             // Generate schedule HTML
-            for (const day in schedule) {
+            for (const day in scheduleData) {
                 const dayElement = document.createElement('div');
                 dayElement.className = 'day';
-                dayElement.id = `day-${day}`;
                 
                 const dayTitle = document.createElement('h3');
                 dayTitle.className = 'day-title';
                 dayTitle.textContent = day;
                 dayElement.appendChild(dayTitle);
                 
-                schedule[day].forEach((lesson, index) => {
+                scheduleData[day].forEach((lesson, index) => {
                     const lessonElement = document.createElement('div');
                     lessonElement.className = 'lesson';
                     
@@ -1311,27 +1234,9 @@
                     
                     const lessonInfo = document.createElement('div');
                     lessonInfo.className = 'lesson-info';
-                    lessonInfo.innerHTML = `<i class="far fa-clock"></i> ${lesson.time} | <i class="fas fa-door-open"></i> Кабинет ${lesson.classroom}`;
+                    const timeSlot = lesson.classroom === 'ДО' ? timeSlotsDO[index] || lesson.time : lesson.time;
+                    lessonInfo.innerHTML = `<i class="far fa-clock"></i> ${timeSlot} | <i class="fas fa-door-open"></i> ${lesson.classroom === 'ДО' ? 'Дистанционно' : 'Кабинет ' + lesson.classroom}`;
                     lessonElement.appendChild(lessonInfo);
-                    
-                    // Add grade for students (demo data)
-                    if (!currentUser.isAdmin) {
-                        const grades = generateDemoGrades(currentUser.id);
-                        const lessonDate = new Date();
-                        lessonDate.setDate(lessonDate.getDate() + currentWeek * 7 + ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'].indexOf(day));
-                        const dateStr = lessonDate.toLocaleDateString('ru-RU');
-                        
-                        const gradeForLesson = grades.find(g => 
-                            g.subject === lesson.subject && g.date === dateStr
-                        );
-                        
-                        if (gradeForLesson) {
-                            const grade = document.createElement('div');
-                            grade.className = `grade grade-${gradeForLesson.grade}`;
-                            grade.textContent = gradeForLesson.grade;
-                            lessonElement.appendChild(grade);
-                        }
-                    }
                     
                     const homework = document.createElement('div');
                     homework.className = 'homework';
@@ -1345,10 +1250,9 @@
             }
         }
 
-        // Load statistics
-        function loadStatistics() {
+        // Load personal cabinet
+        function loadPersonalCabinet() {
             if (currentUser.isAdmin) {
-                subjectStats.innerHTML = '<p>Статистика доступна только для учеников</p>';
                 rankNumber.textContent = '-';
                 fivesCount.textContent = '-';
                 foursCount.textContent = '-';
@@ -1358,53 +1262,13 @@
                 return;
             }
             
-            // Calculate grade counts
-            const gradeCounts = calculateGradeCounts(currentUser.id);
-            
-            // Calculate average grades per subject
-            const subjectAverages = {};
-            subjects.forEach(subject => {
-                const avg = calculateSubjectAverage(currentUser.id, subject);
-                subjectAverages[subject] = avg > 0 ? avg : 'Нет оценок';
-            });
-            
-            // Generate subject stats HTML
-            subjectStats.innerHTML = '';
-            for (const subject in subjectAverages) {
-                const subjectElement = document.createElement('div');
-                subjectElement.className = 'subject-stats';
-                
-                const subjectName = document.createElement('div');
-                subjectName.className = 'subject-name';
-                subjectName.innerHTML = `<span>${subject}</span><span>${subjectAverages[subject]}</span>`;
-                subjectElement.appendChild(subjectName);
-                
-                if (subjectAverages[subject] !== 'Нет оценок') {
-                    const progressBar = document.createElement('div');
-                    progressBar.className = 'progress-bar';
-                    
-                    const progress = document.createElement('div');
-                    progress.className = 'progress';
-                    progress.style.width = `${(subjectAverages[subject] / 5) * 100}%`;
-                    progressBar.appendChild(progress);
-                    
-                    subjectElement.appendChild(progressBar);
-                }
-                
-                subjectStats.appendChild(subjectElement);
-            }
-            
-            // Calculate ranking
-            const ranking = calculateRanking();
-            const rank = getStudentRank(currentUser.id, ranking);
-            
-            // Update statistics
-            rankNumber.textContent = rank;
-            fivesCount.textContent = gradeCounts[5];
-            foursCount.textContent = gradeCounts[4];
-            threesCount.textContent = gradeCounts[3];
-            twosCount.textContent = gradeCounts[2];
-            missedClasses.textContent = gradeCounts['Н'];
+            // For demo purposes, set some random stats
+            rankNumber.textContent = Math.floor(Math.random() * 25) + 1;
+            fivesCount.textContent = Math.floor(Math.random() * 10);
+            foursCount.textContent = Math.floor(Math.random() * 15);
+            threesCount.textContent = Math.floor(Math.random() * 5);
+            twosCount.textContent = Math.floor(Math.random() * 2);
+            missedClasses.textContent = Math.floor(Math.random() * 3);
         }
 
         // Load grades
@@ -1414,18 +1278,7 @@
                 return;
             }
             
-            const grades = generateDemoGrades(currentUser.id);
-            
-            // Group grades by subject
-            const gradesBySubject = {};
-            grades.forEach(grade => {
-                if (!gradesBySubject[grade.subject]) {
-                    gradesBySubject[grade.subject] = [];
-                }
-                gradesBySubject[grade.subject].push(grade);
-            });
-            
-            // Clear grades table
+            // For demo purposes, show empty grades
             gradesTable.innerHTML = '';
             
             // Create header
@@ -1436,48 +1289,15 @@
             `;
             gradesTable.appendChild(headerRow);
             
-            // Add grades for each subject
-            for (const subject in gradesBySubject) {
-                const row = document.createElement('tr');
-                
-                const subjectCell = document.createElement('td');
-                subjectCell.textContent = subject;
-                row.appendChild(subjectCell);
-                
-                const gradesCell = document.createElement('td');
-                gradesBySubject[subject].forEach(grade => {
-                    const gradeElement = document.createElement('div');
-                    gradeElement.style.display = 'inline-block';
-                    gradeElement.style.margin = '0 5px 5px 0';
-                    
-                    const gradeSpan = document.createElement('span');
-                    gradeSpan.className = `grade grade-${grade.grade}`;
-                    gradeSpan.textContent = grade.grade;
-                    gradeElement.appendChild(gradeSpan);
-                    
-                    const dateElement = document.createElement('div');
-                    dateElement.style.fontSize = '0.7rem';
-                    dateElement.style.color = 'var(--text-color)';
-                    dateElement.style.opacity = '0.7';
-                    dateElement.textContent = grade.date;
-                    gradeElement.appendChild(dateElement);
-                    
-                    gradesCell.appendChild(gradeElement);
-                });
-                row.appendChild(gradesCell);
-                
-                gradesTable.appendChild(row);
-            }
-            
-            // Show message if no grades
-            if (Object.keys(gradesBySubject).length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = '<td colspan="2" style="text-align: center;">Нет оценок</td>';
-                gradesTable.appendChild(row);
-            }
+            // Show message about no grades
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="2" style="text-align: center; padding: 40px;">Оценок пока нет</td>';
+            gradesTable.appendChild(row);
         }
 
         // Initialize the app
+        loadTheme();
+        checkLoggedIn();
         loadSchedule();
     </script>
 </body>
