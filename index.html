@@ -497,9 +497,9 @@
             text-align: center;
         }
 
-        /* Roulette */
-        .roulette-table {
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        /* Case Battle */
+        .casebattle-table {
+            background: linear-gradient(135deg, #3498db, #2980b9);
             border-radius: var(--border-radius);
             padding: 30px;
             box-shadow: var(--box-shadow);
@@ -509,7 +509,7 @@
             overflow: hidden;
         }
 
-        .roulette-table::before {
+        .casebattle-table::before {
             content: '';
             position: absolute;
             top: 0;
@@ -520,114 +520,126 @@
             pointer-events: none;
         }
 
-        .roulette-container {
+        .case-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            margin: 20px 0;
         }
 
-        .roulette-wheel-container {
-            position: relative;
-            width: 250px;
-            height: 250px;
-        }
-
-        .roulette-wheel {
+        .case-roulette {
             width: 100%;
-            height: 100%;
-            border: 8px solid #2c3e50;
-            border-radius: 50%;
-            position: relative;
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            height: 120px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
             overflow: hidden;
-            transition: transform 3s cubic-bezier(0.2, 0.8, 0.3, 1);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        .roulette-sector {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: 100% 100%;
+        .case-items {
             display: flex;
+            transition: transform 3s cubic-bezier(0.2, 0.8, 0.3, 1);
+            height: 100%;
+        }
+
+        .case-item {
+            min-width: 100px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            padding: 10px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .roulette-ball {
+        .case-item.active {
+            background: rgba(52, 152, 219, 0.3);
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+        }
+
+        .case-item-image {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .case-item-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3px;
+        }
+
+        .case-item-price {
+            font-size: 0.7rem;
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .case-pointer {
             position: absolute;
-            width: 15px;
-            height: 15px;
-            background: white;
-            border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            width: 3px;
+            height: 100%;
+            background: #e74c3c;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
             z-index: 10;
         }
 
-        .roulette-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 20px solid #e74c3c;
-            z-index: 5;
+        .case-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .roulette-numbers {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 5px;
-            margin: 20px 0;
-            max-width: 400px;
-        }
-
-        .roulette-number {
-            background: #34495e;
+        .case-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            min-width: 120px;
         }
 
-        .roulette-number::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .case-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .case-option.selected {
+            background: rgba(46, 204, 113, 0.5);
+            border-color: #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+        }
+
+        .case-info {
+            display: flex;
+            justify-content: space-around;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .roulette-number:hover::before {
-            left: 100%;
-        }
-
-        .roulette-number:hover {
-            background: #2c3e50;
-            transform: scale(1.05);
-        }
-
-        .roulette-number.selected {
-            background: #f39c12;
-            color: #2c3e50;
-            box-shadow: 0 0 10px rgba(243, 156, 18, 0.7);
+        .case-stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
         }
 
         /* Blackjack */
@@ -1447,6 +1459,13 @@
             opacity: 0.8;
         }
 
+        .profile-actions {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         /* Statistics */
         .stats-grid {
             display: grid;
@@ -1754,8 +1773,14 @@
                 margin-bottom: 10px;
             }
             
-            .roulette-numbers {
-                grid-template-columns: repeat(4, 1fr);
+            .case-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .case-option {
+                width: 100%;
+                max-width: 200px;
             }
         }
     </style>
@@ -1795,7 +1820,6 @@
             <h2>Электронный журнал ИСП 1-1</h2>
             <div class="user-info">
                 <span id="userName"></span>
-                <button class="logout-btn" id="logoutBtn">Выйти</button>
             </div>
         </div>
         <div class="content">
@@ -1845,6 +1869,12 @@
                                     <i class="fas fa-ghost"></i> Включить Хэллоуин тему
                                 </button>
                             </div>
+                            <!-- Logout Button -->
+                            <div class="profile-actions">
+                                <button class="logout-btn" id="logoutBtn" style="width: 100%; margin-top: 15px;">
+                                    <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="stat-card">
@@ -1881,7 +1911,9 @@
                             <div>
                                 <i class="fas fa-coins"></i> Баланс: <span id="balance">1000</span> монет
                             </div>
-                            <button class="bonus-btn" id="bonusBtn" disabled>Бонус: +1000 монет</button>
+                            <button class="bonus-btn" id="bonusBtn">
+                                <i class="fas fa-gift"></i> Бонус: +1000 монет
+                            </button>
                         </div>
                         
                         <div class="games-grid">
@@ -1893,11 +1925,11 @@
                                 <button class="btn">Играть</button>
                             </div>
 
-                            <!-- Roulette -->
-                            <div class="game-card" onclick="openGame('roulette')">
-                                <div class="game-icon">🎡</div>
-                                <h3 class="game-title">Рулетка</h3>
-                                <p class="game-description">Ставьте на числа для выигрыша х31!</p>
+                            <!-- Case Battle -->
+                            <div class="game-card" onclick="openGame('casebattle')">
+                                <div class="game-icon">🎁</div>
+                                <h3 class="game-title">Case Battle</h3>
+                                <p class="game-description">Открывайте кейсы и выигрывайте скины!</p>
                                 <button class="btn">Играть</button>
                             </div>
 
@@ -1960,33 +1992,46 @@
                             </div>
                         </div>
 
-                        <!-- Roulette Game -->
-                        <div id="roulette-game" class="game-section" style="display: none;">
-                            <div class="roulette-table">
-                                <h3>🎡 Рулетка</h3>
-                                <div class="bet-controls">
-                                    <button class="bet-btn" onclick="changeRouletteBet(-50)">-50</button>
-                                    <input type="number" class="bet-input" id="rouletteBetInput" value="50" min="1" onchange="updateRouletteBetFromInput()">
-                                    <button class="bet-btn" onclick="changeRouletteBet(50)">+50</button>
-                                </div>
-                                <div class="roulette-container">
-                                    <div class="roulette-wheel-container">
-                                        <div class="roulette-wheel" id="rouletteWheel">
-                                            <!-- Roulette sectors will be generated by JavaScript -->
+                        <!-- Case Battle Game -->
+                        <div id="casebattle-game" class="game-section" style="display: none;">
+                            <div class="casebattle-table">
+                                <h3>🎁 Case Battle</h3>
+                                <div class="case-container">
+                                    <div class="case-roulette">
+                                        <div class="case-items" id="caseItems">
+                                            <!-- Case items will be generated by JavaScript -->
                                         </div>
-                                        <div class="roulette-ball"></div>
-                                        <div class="roulette-pointer"></div>
+                                        <div class="case-pointer"></div>
+                                    </div>
+                                    <div class="case-options">
+                                        <div class="case-option" onclick="selectCaseOption(1)">
+                                            5x шанс<br>
+                                            <small>20% на дорогой скин</small><br>
+                                            <strong>100 монет</strong>
+                                        </div>
+                                        <div class="case-option" onclick="selectCaseOption(2)">
+                                            10x шанс<br>
+                                            <small>10% на дорогой скин</small><br>
+                                            <strong>250 монет</strong>
+                                        </div>
+                                        <div class="case-option" onclick="selectCaseOption(3)">
+                                            20x шанс<br>
+                                            <small>5% на дорогой скин</small><br>
+                                            <strong>500 монет</strong>
+                                        </div>
+                                    </div>
+                                    <div class="case-info">
+                                        <div class="case-stat">Стоимость: <span id="caseCost">-</span></div>
+                                        <div class="case-stat">Шанс выигрыша: <span id="caseChance">-</span></div>
+                                        <div class="case-stat">Макс. выигрыш: <span id="caseMaxWin">-</span></div>
                                     </div>
                                 </div>
-                                <div class="roulette-numbers">
-                                    <!-- Roulette numbers will be generated by JavaScript -->
-                                </div>
-                                <div class="game-result" id="rouletteResult"></div>
+                                <div class="game-result" id="caseResult"></div>
                                 <div class="slot-controls">
-                                    <button class="slot-btn" onclick="spinRoulette()" id="rouletteSpinBtn">
-                                        <i class="fas fa-play"></i> Крутить
+                                    <button class="slot-btn" onclick="openCase()" id="openCaseBtn">
+                                        <i class="fas fa-box-open"></i> Открыть кейс
                                     </button>
-                                    <button class="slot-btn" onclick="closeGame('roulette')">
+                                    <button class="slot-btn" onclick="closeGame('casebattle')">
                                         <i class="fas fa-times"></i> Назад
                                     </button>
                                 </div>
@@ -2189,18 +2234,21 @@
         // Casino variables
         let balance = 1000;
         let currentBet = 10;
-        let rouletteBet = 50;
         let blackjackBet = 25;
         let coinflipBet = 10;
         let diceBet = 10;
         let crashBet = 10;
-        let selectedNumber = null;
         let isSpinning = false;
         let selectedCoinChoice = null;
         let selectedDiceBet = null;
         let crashMultiplier = 1.0;
         let crashInterval = null;
         let crashGameActive = false;
+        
+        // Case Battle variables
+        let selectedCaseOption = null;
+        let caseItems = [];
+        let caseSpinning = false;
 
         // Blackjack variables
         let playerCards = [];
@@ -2217,7 +2265,6 @@
         let easterThemeActive = false;
         let halloweenThemeActive = false;
         let spiders = [];
-        let bonusUsed = false;
 
         // DOM elements
         const loginPage = document.getElementById('loginPage');
@@ -2256,19 +2303,24 @@
         // Casino DOM elements
         const balanceElement = document.getElementById('balance');
         const currentBetInput = document.getElementById('currentBetInput');
-        const rouletteBetInput = document.getElementById('rouletteBetInput');
         const blackjackBetInput = document.getElementById('blackjackBetInput');
         const coinflipBetInput = document.getElementById('coinflipBetInput');
         const diceBetInput = document.getElementById('diceBetInput');
         const crashBetInput = document.getElementById('crashBetInput');
         const slotResultElement = document.getElementById('slotResult');
-        const rouletteResultElement = document.getElementById('rouletteResult');
         const blackjackResultElement = document.getElementById('blackjackResult');
         const coinflipResultElement = document.getElementById('coinflipResult');
         const diceResultElement = document.getElementById('diceResult');
         const crashResultElement = document.getElementById('crashResult');
         const crashMultiplierElement = document.getElementById('crashMultiplier');
         const crashLineElement = document.getElementById('crashLine');
+        
+        // Case Battle DOM elements
+        const caseItemsElement = document.getElementById('caseItems');
+        const caseResultElement = document.getElementById('caseResult');
+        const caseCostElement = document.getElementById('caseCost');
+        const caseChanceElement = document.getElementById('caseChance');
+        const caseMaxWinElement = document.getElementById('caseMaxWin');
 
         // Casino Functions
         function openGame(game) {
@@ -2281,8 +2333,8 @@
             document.getElementById(game + '-game').scrollIntoView({ behavior: 'smooth' });
             
             // Initialize specific games
-            if (game === 'roulette') {
-                initializeRoulette();
+            if (game === 'casebattle') {
+                initializeCaseBattle();
             } else if (game === 'dice') {
                 initializeDice();
             }
@@ -2306,16 +2358,6 @@
         function updateBetFromInput() {
             currentBet = Math.max(1, parseInt(currentBetInput.value) || 1);
             currentBetInput.value = currentBet;
-        }
-
-        function changeRouletteBet(amount) {
-            rouletteBet = Math.max(1, rouletteBet + amount);
-            rouletteBetInput.value = rouletteBet;
-        }
-
-        function updateRouletteBetFromInput() {
-            rouletteBet = Math.max(1, parseInt(rouletteBetInput.value) || 1);
-            rouletteBetInput.value = rouletteBet;
         }
 
         function changeBlackjackBet(amount) {
@@ -2434,86 +2476,186 @@
             slotResultElement.className = 'game-result ' + (winAmount > 0 ? 'win' : 'lose');
         }
 
-        function initializeRoulette() {
-            const rouletteNumbers = document.querySelector('.roulette-numbers');
-            const rouletteWheel = document.getElementById('rouletteWheel');
+        // Case Battle functions
+        function initializeCaseBattle() {
+            selectedCaseOption = null;
+            caseItems = [];
+            caseSpinning = false;
             
-            // Clear existing content
-            rouletteNumbers.innerHTML = '';
-            rouletteWheel.innerHTML = '';
+            // Clear existing items
+            caseItemsElement.innerHTML = '';
+            document.querySelectorAll('.case-option').forEach(opt => opt.classList.remove('selected'));
+            caseResultElement.textContent = '';
+            caseCostElement.textContent = '-';
+            caseChanceElement.textContent = '-';
+            caseMaxWinElement.textContent = '-';
             
-            // Create numbers 0-11
+            // Generate case items (CS:GO skins)
+            const skinNames = [
+                "AK-47 | Красная линия", "AWP | Электрический апельсин", "M4A4 | Зевс-Ксеноурон",
+                "Desert Eagle | Кобра", "Glock-18 | Водная стихия", "USP-S | Килконфёрма",
+                "P90 | Холодное кровотечение", "AWP | Дракон Лор", "M4A1-S | Гиперзверь",
+                "Karambit | Ультрафиолет", "Но́жи-бабочка | Ночная полоса", "Перчатки | Кровавая паутина"
+            ];
+            
+            const skinPrices = [50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000];
+            const skinImages = [
+                "🔫", "🎯", "⚡", "🐍", "💧", "🔫", "🌀", "🐉", "🐺", "💜", "🦋", "🕸️"
+            ];
+            
             for (let i = 0; i < 12; i++) {
-                const numberElement = document.createElement('div');
-                numberElement.className = 'roulette-number';
-                numberElement.textContent = i;
-                numberElement.onclick = () => selectNumber(i);
-                rouletteNumbers.appendChild(numberElement);
+                caseItems.push({
+                    name: skinNames[i],
+                    price: skinPrices[i],
+                    image: skinImages[i]
+                });
                 
-                // Create sectors for the wheel
-                const sector = document.createElement('div');
-                sector.className = 'roulette-sector';
-                sector.style.transform = `rotate(${i * 30}deg)`;
-                sector.style.background = i % 2 === 0 ? 'linear-gradient(45deg, #e74c3c, #c0392b)' : 'linear-gradient(45deg, #2c3e50, #34495e)';
-                sector.innerHTML = `<div style="transform: rotate(60deg)">${i}</div>`;
-                rouletteWheel.appendChild(sector);
+                const itemElement = document.createElement('div');
+                itemElement.className = 'case-item';
+                itemElement.innerHTML = `
+                    <div class="case-item-image">${skinImages[i]}</div>
+                    <div class="case-item-name">${skinNames[i]}</div>
+                    <div class="case-item-price">${skinPrices[i]} монет</div>
+                `;
+                caseItemsElement.appendChild(itemElement);
             }
         }
 
-        function selectNumber(number) {
-            document.querySelectorAll('.roulette-number').forEach(el => el.classList.remove('selected'));
+        function selectCaseOption(option) {
+            selectedCaseOption = option;
+            document.querySelectorAll('.case-option').forEach(opt => opt.classList.remove('selected'));
             event.target.classList.add('selected');
-            selectedNumber = number;
+            
+            // Update case info
+            let cost, chance, maxWin;
+            switch(option) {
+                case 1:
+                    cost = 100;
+                    chance = "20%";
+                    maxWin = "2000 монет";
+                    break;
+                case 2:
+                    cost = 250;
+                    chance = "10%";
+                    maxWin = "5000 монет";
+                    break;
+                case 3:
+                    cost = 500;
+                    chance = "5%";
+                    maxWin = "10000 монет";
+                    break;
+            }
+            
+            caseCostElement.textContent = cost + " монет";
+            caseChanceElement.textContent = chance;
+            caseMaxWinElement.textContent = maxWin;
         }
 
-        function spinRoulette() {
-            if (isSpinning || balance < rouletteBet || selectedNumber === null) {
-                if (balance < rouletteBet) {
-                    rouletteResultElement.textContent = '❌ Недостаточно средств для ставки!';
-                    rouletteResultElement.className = 'game-result lose';
-                } else if (selectedNumber === null) {
-                    rouletteResultElement.textContent = '❌ Выберите число для ставки!';
-                    rouletteResultElement.className = 'game-result lose';
+        function openCase() {
+            if (caseSpinning || !selectedCaseOption) {
+                if (!selectedCaseOption) {
+                    caseResultElement.textContent = '❌ Выберите тип кейса!';
+                    caseResultElement.className = 'game-result lose';
                 }
                 return;
             }
             
-            isSpinning = true;
-            balance -= rouletteBet;
+            let caseCost;
+            switch(selectedCaseOption) {
+                case 1: caseCost = 100; break;
+                case 2: caseCost = 250; break;
+                case 3: caseCost = 500; break;
+            }
+            
+            if (balance < caseCost) {
+                caseResultElement.textContent = '❌ Недостаточно средств для открытия кейса!';
+                caseResultElement.className = 'game-result lose';
+                return;
+            }
+            
+            caseSpinning = true;
+            balance -= caseCost;
             updateBalance();
             
-            const winningNumber = Math.floor(Math.random() * 12);
-            let winAmount = 0;
-            let message = '';
+            // Reset all items
+            document.querySelectorAll('.case-item').forEach(item => item.classList.remove('active'));
             
-            // Improved win chance (slightly higher)
-            const winChance = Math.random() < 0.45; // 45% chance to win
+            // Determine win based on chance
+            let winMultiplier;
+            let winChance;
             
-            if (winChance && winningNumber === selectedNumber) {
-                winAmount = Math.floor(rouletteBet * 31); // x31 for win
-                message = `🎉 Поздравляем! Выпало число ${winningNumber}. Выигрыш: ${winAmount} монет!`;
+            switch(selectedCaseOption) {
+                case 1: winChance = 0.20; break; // 20%
+                case 2: winChance = 0.10; break; // 10%
+                case 3: winChance = 0.05; break; // 5%
+            }
+            
+            const isBigWin = Math.random() < winChance;
+            
+            if (isBigWin) {
+                // Big win - higher priced items (last 4 items)
+                winMultiplier = selectedCaseOption === 1 ? 5 : selectedCaseOption === 2 ? 10 : 20;
             } else {
-                message = `😢 Выпало число ${winningNumber}. Попробуйте еще раз!`;
+                // Small win - lower priced items (first 8 items)
+                winMultiplier = Math.random() * 0.8 + 0.2; // 0.2x to 1.0x
             }
             
-            if (winAmount > 0) {
-                balance += winAmount;
-                updateBalance();
-            }
+            // Calculate final win
+            const baseWin = caseCost * winMultiplier;
+            const winAmount = Math.max(Math.floor(baseWin), caseCost * 0.1); // At least 10% of case cost
             
-            // Animate the wheel
-            const wheel = document.getElementById('rouletteWheel');
-            const spins = 5 + Math.random() * 3; // 5-8 spins
-            const degrees = 360 * spins + (winningNumber * 30);
+            // Spin animation
+            const items = document.querySelectorAll('.case-item');
+            const totalItems = items.length;
+            const targetIndex = isBigWin ? 
+                Math.floor(Math.random() * 4) + 8 : // Last 4 items for big win
+                Math.floor(Math.random() * 8); // First 8 items for small win
             
-            wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
-            wheel.style.transform = `rotate(${degrees}deg)`;
+            let currentPosition = 0;
+            const spins = 30 + Math.floor(Math.random() * 10); // 30-40 spins
+            let spinCount = 0;
             
-            setTimeout(() => {
-                rouletteResultElement.textContent = message;
-                rouletteResultElement.className = 'game-result ' + (winAmount > 0 ? 'win' : 'lose');
-                isSpinning = false;
-            }, 4000);
+            const spinInterval = setInterval(() => {
+                // Move to next item
+                items.forEach(item => item.classList.remove('active'));
+                items[currentPosition % totalItems].classList.add('active');
+                
+                currentPosition++;
+                spinCount++;
+                
+                // Slow down at the end
+                if (spinCount > spins - 10) {
+                    clearInterval(spinInterval);
+                    setTimeout(() => {
+                        // Final position
+                        items.forEach(item => item.classList.remove('active'));
+                        const finalIndex = (targetIndex + totalItems) % totalItems;
+                        items[finalIndex].classList.add('active');
+                        
+                        // Show result
+                        const wonItem = caseItems[finalIndex];
+                        balance += winAmount;
+                        updateBalance();
+                        
+                        let message = '';
+                        if (isBigWin) {
+                            message = `🎉 БОЛЬШОЙ ВЫИГРЫШ! Вы выиграли ${winAmount} монет! (${wonItem.name})`;
+                        } else {
+                            if (winAmount > caseCost) {
+                                message = `🎉 Вы выиграли ${winAmount} монет! (${wonItem.name})`;
+                            } else if (winAmount === caseCost) {
+                                message = `🤝 Ничья! Вы получили свои ${winAmount} монет обратно. (${wonItem.name})`;
+                            } else {
+                                message = `😢 Вы проиграли ${caseCost - winAmount} монет. (${wonItem.name})`;
+                            }
+                        }
+                        
+                        caseResultElement.textContent = message;
+                        caseResultElement.className = 'game-result ' + (winAmount >= caseCost ? 'win' : 'lose');
+                        caseSpinning = false;
+                    }, 500);
+                }
+            }, 100);
         }
 
         // Blackjack functions
@@ -2872,8 +3014,8 @@
         function updateBalance() {
             balanceElement.textContent = balance;
             
-            // Enable/disable bonus button based on balance
-            if (balance < 100 && !bonusUsed) {
+            // Enable bonus button based on balance (always enabled if balance < 100)
+            if (balance < 100) {
                 bonusBtn.disabled = false;
             } else {
                 bonusBtn.disabled = true;
@@ -2886,16 +3028,10 @@
         }
 
         function claimBonus() {
-            if (balance < 100 && !bonusUsed) {
+            // Bonus can be claimed infinitely when balance is below 100
+            if (balance < 100) {
                 balance += 1000;
-                bonusUsed = true;
                 updateBalance();
-                bonusBtn.disabled = true;
-                
-                // Save bonus state
-                if (currentUser) {
-                    localStorage.setItem(`bonusUsed_${currentUser.id}`, 'true');
-                }
                 
                 // Show bonus message
                 const casinoPage = document.getElementById('casino');
@@ -3204,11 +3340,6 @@
                 balance = parseInt(savedBalance);
             } else {
                 balance = 1000;
-            }
-            
-            const savedBonusUsed = localStorage.getItem(`bonusUsed_${user.id}`);
-            if (savedBonusUsed) {
-                bonusUsed = savedBonusUsed === 'true';
             }
             
             updateBalance();
